@@ -17,6 +17,25 @@
             transform-origin: top left;
         }
     </style>
+
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script>
+
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('d28e873c11673cc56138', {
+            cluster: 'ap2'
+        });
+
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('new-booking', function(data) {
+            alert(JSON.stringify(data));
+        });
+        channel.bind('new-room', function(data) {
+            alert(JSON.stringify(data));
+        });
+    </script>
 </head>
 <body>
 <header class="bg-body-secondary bg-success-subtle d-flex p-3 px-5 justify-content-between ">
