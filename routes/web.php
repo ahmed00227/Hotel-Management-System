@@ -61,3 +61,19 @@ Route::post('/city/list',[RoomController::class,'city_list'])->name('city.list')
 Route::post('/room/search', [RoomController::class, 'city_search'])->name('city.search');
 Route::get('/room/{id}', [RoomController::class, 'show'])->name('room.show');
 Route::post('/room/filter',[RoomController::class,'filterRooms'])->name('filter-rooms');
+
+
+
+Route::get('/checkout', function (Request $request) {
+    $stripePriceId = 'price_deluxe_album';
+
+    $quantity = 1;
+
+    return $request->user()->checkout([$stripePriceId => $quantity], [
+        'success_url' => route('checkout-success'),
+        'cancel_url' => route('checkout-cancel'),
+    ]);
+})->name('checkout');
+
+Route::view('/checkout/success', 'checkout.success')->name('checkout-success');
+Route::view('/checkout/cancel', 'checkout.cancel')->name('checkout-cancel');
