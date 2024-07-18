@@ -69,3 +69,4 @@ Route::post('/room/filter',[RoomController::class,'filterRooms'])->name('filter-
 Route::get('/checkout', [StripeController::class,'checkout'])->name('checkout');
 Route::get('/checkout/success', [StripeController::class,'checkoutSuccess'])->name('checkout-success');
 Route::get('/checkout/cancel',[StripeController::class,'checkoutCancel'])->name('checkout-cancel');
+Route::post('/stripe/webhook', [StripeController::class, 'handleWebhook'])->name('stripe.webhook');

@@ -16,16 +16,8 @@
     Greetings, Hope you are having a good day.
 </p>
 <p>
-    This email was used to Book a room from {{$booking->start_date}} till {{$booking->end_date}} on paradox campus
-    management system which will cost you ${{$booking->bill}}/-.If you haven't Done that then you can ignore
-    this mail but if you did booked the room
-    then click on verify now to verify your booking
+    This email was sent to inform you that your Booking of room was confirmed from {{$booking->start_date}} till {{$booking->end_date}} on paradox short term retnals
+     which costed you ${{$booking->bill}}/-.
 </p>
-<a href="{{route('verify',$booking->booking_confirmation_token)}}" class="btn btn-success btn-sm text-center">VERIFY
-    NOW</a>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam, beatae dicta ea eaque eum expedita impedit
-    magni minima, nobis quos repellendus, soluta vero voluptate voluptates? Ea ex possimus quae!</p>
-
-
 </body>
 </html>

@@ -12,9 +12,7 @@ class BookingObserver
 
     public function stored(Booking $booking): void
     {
-       BookingConfirmation::dispatch($booking);
 //        Mail::to($booking->user->email)->send(new ConfirmationMail($booking));
-
     }
 
     /**
@@ -22,7 +20,10 @@ class BookingObserver
      */
     public function updated(Booking $booking): void
     {
-        //
+        if($booking->confirmation_status==1)
+        {
+            BookingConfirmation::dispatch($booking);
+        }
     }
 
     /**

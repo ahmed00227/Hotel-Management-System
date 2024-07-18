@@ -29,6 +29,7 @@ class RoomService
             'country' => $request->country,
             'user_id' => Auth::id(),
             'status' => 0,
+            'price_id'=>$this->stripeService->createProductAndPrice($request),
             'room_pic' => $name
         ]);
 
