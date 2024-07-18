@@ -4,15 +4,16 @@ namespace App\Services;
 
 use App\Models\Room;
 use Illuminate\Support\Facades\Auth;
-
+use App\Services\StripeService;
 class RoomService
 {
     /**
      * Create a new class instance.
      */
-    public function __construct()
+    protected $stripeService;
+    public function __construct(StripeService $stripeService)
     {
-        //
+        $this->stripeService=$stripeService;
     }
 
     public function store($request)

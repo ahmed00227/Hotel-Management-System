@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\IsCustomer;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AuthCheck;
 use App\Http\Middleware\NotLoggedIn;
@@ -64,16 +66,6 @@ Route::post('/room/filter',[RoomController::class,'filterRooms'])->name('filter-
 
 
 
-Route::get('/checkout', function (Request $request) {
-    $stripePriceId = 'price_deluxe_album';
-
-    $quantity = 1;
-
-    return $request->user()->checkout([$stripePriceId => $quantity], [
-        'success_url' => route('checkout-success'),
-        'cancel_url' => route('checkout-cancel'),
-    ]);
-})->name('checkout');
-
-Route::view('/checkout/success', 'checkout.success')->name('checkout-success');
-Route::view('/checkout/cancel', 'checkout.cancel')->name('checkout-cancel');
+Route::get('/checkout', [StripeController::class,'checkout'])->name('checkout');
+Route::get('/checkout/success', [StripeController::class,'checkoutSuccess'])->name('checkout-success');
+Route::get('/checkout/cancel',[StripeController::class,'checkoutCancel'])->name('checkout-cancel');

@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('city');
             $table->string('country');
             $table->boolean('status');
+            $table->string('price_id')->unique();
             $table->timestamps();
-
         });
     }
 
