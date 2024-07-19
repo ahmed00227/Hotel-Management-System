@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('room_id');
             $table->foreign('room_id')->references('id')->on('rooms')->cascadeOnDelete()->cascadeOnUpdate();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('rooms')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->date('start_date');
             $table->date('end_date');
             $table->unsignedTinyInteger('confirmation_status')->default(0);

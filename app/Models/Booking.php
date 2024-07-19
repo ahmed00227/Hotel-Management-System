@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
+    protected $guarded=[];
     const confirmed=1;//Booking was Confirmed
     const pending=0;//Booking is pending For confirmation
     const rejected=2;//Booking Request Was rejected

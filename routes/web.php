@@ -50,6 +50,8 @@ Route::middleware([AuthCheck::class, EmailVerification::class])->group(function 
     Route::get('/activate/{id}', [RoomController::class, 'activate'])->name('activate')->middleware([IsAdmin::class]);
     Route::post('/city', [RoomController::class, 'cities'])->name('city-country');
 
+    Route::get('/checkout/success', [StripeController::class, 'checkoutSuccess'])->name('checkout-success');
+    Route::get('/checkout/cancel', [StripeController::class, 'checkoutCancel'])->name('checkout-cancel');
     });
 Route::middleware([NotLoggedIn::class])->group(function () {
     Route::get('/login', [UserController::class, 'loginPage'])->name('login-page');
@@ -65,8 +67,4 @@ Route::get('/room/{id}', [RoomController::class, 'show'])->name('room.show');
 Route::post('/room/filter',[RoomController::class,'filterRooms'])->name('filter-rooms');
 
 
-
-Route::get('/checkout', [StripeController::class,'checkout'])->name('checkout');
-Route::get('/checkout/success', [StripeController::class,'checkoutSuccess'])->name('checkout-success');
-Route::get('/checkout/cancel',[StripeController::class,'checkoutCancel'])->name('checkout-cancel');
-Route::post('/stripe/webhook', [StripeController::class, 'handleWebhook'])->name('stripe.webhook');
+    Route::post('/stripe/webhook', [StripeController::class, 'handleWebhook'])->name('stripe.webhook');

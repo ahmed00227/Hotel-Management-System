@@ -42,7 +42,7 @@ class BookingController extends Controller
         }
         if ($booking->isEmpty()) {
             $days = (int)$request->no_of_days;
-            Booking::create([
+            $booking = Booking::create([
                 'user_id' => Auth::id(),
                 'room_id' => $request->room_id,
                 'start_date' => Carbon::parse($request->start_date),
@@ -50,32 +50,21 @@ class BookingController extends Controller
                 'bill' => $room->daily_rent * $days,
                 'booking_confirmation_token' => Str::random(30),
             ]);
-            return redirect()->route('show-bookings', Auth()->id())->with('note', 'Booking was registered and is now pending for confirmation check your email for booking confirmation');
+            $stripePriceId = $room->price_id;
+
+            $quantity = $days;
+
+            return $request->user()->checkout([$stripePriceId => $quantity], [
+                'success_url' => route('checkout-success'),
+                'cancel_url' => route('checkout-cancel'),
+                'metadata' => [
+                    'booking_id' => $booking->id,
+                ]
+            ]);
         }
         return redirect()->back()->with('note', 'This Room Is Booked in these dates you cannot requested that');
     }
 
-    public function bookingConfirmation($token)
-    {
-        $booking = Booking::where('booking_confirmation_token', $token)->first();
-        if ($booking != null) {
-            if ($booking->confirmation_status == Booking::rejected) {
-                return redirect()->route('home')->with('note', 'This Room is already booked by someone else and your booking request was rejected.');
-            }
-            Booking::where('room_id', $booking->room_id)
-                ->where(function ($query) use ($booking) {
-                    $query->whereBetween('start_date', [$booking->start_date, $booking->end_date])
-                        ->orWhereBetween('end_date', [$booking->start_date, $booking->end_date]);
-                })
-                ->where('confirmation_status', Booking::pending)->setAttribute('confirmation_status', Booking::rejected);
-            $booking->confirmation_status = 1;
-            $booking->booking_confirmation_token = null;
-            $booking->save();
-            return redirect()->route('home')->with('note', 'Booking confirmed successfully');
-        } else {
-            return redirect()->route('home')->with('note', 'token expired booking confirmation was unsuccessful');
-        }
-    }
 
     public function index()
     {
